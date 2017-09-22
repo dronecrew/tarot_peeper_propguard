@@ -28,8 +28,9 @@ d_screw = 3;
 // triangular screw separation, setup for tarot motors
 screw_sep = 28;
 
-// buld 3d or 2d version, 3d good for printing, 2d good for routing
-3d_version = true; // true, false
+
+// Which one would you like to see?
+part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version, good for routing, all: display everything]
 
 module outset(r) {
     minkowski() {
@@ -134,12 +135,16 @@ module motor() {
     translate([0, 0, 2]) color("blue", 0.1) linear_extrude(20) circle(d=d_motor);
 }
 
-if (3d_version) {
-    guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
-} else {
-    guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
+module print_part() {
+	if (part == "propguard_2d") {
+    	guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
+	} else if (part == "propguard_3d") {
+    	guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
+	} else if (part == "all") {
+    	guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
+    	guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
+		motor();
+	}
 }
 
-//motor();
-
-
+print_part();
