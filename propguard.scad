@@ -138,7 +138,7 @@ module motor() {
 
 module print_part() {
 	if (part == "propguard_2d") {
-    	guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
+    	linear_extrude(t) guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
 	} else if (part == "propguard_3d") {
     	guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
 	} else if (part == "all") {
