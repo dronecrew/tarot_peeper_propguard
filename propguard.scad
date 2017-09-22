@@ -1,5 +1,5 @@
 // Which one would you like to see?
-part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version good for routing, all: display everything]
+part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version good for routing]
 
 // radius of guard
 r = 200; 
@@ -132,19 +132,11 @@ module guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to) {
     }
 }
 
-module motor() {
-    translate([0, 0, 2]) color("blue", 0.1) linear_extrude(20) circle(d=d_motor);
-}
-
 module print_part() {
 	if (part == "propguard_2d") {
     	linear_extrude(t) guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
 	} else if (part == "propguard_3d") {
     	guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
-	} else if (part == "all") {
-    	guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
-    	guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
-		motor();
 	}
 }
 
