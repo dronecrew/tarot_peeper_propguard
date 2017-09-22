@@ -23,7 +23,10 @@ angle_stop = 70;
 n_supports = 2; 
 
 // diameter of motor
-d_motor = 50; 
+d_motor = 50;
+
+// thickness of motor mount
+t_motor = 2;
 
 // diameter of motor screws
 d_screw = 3;
@@ -81,7 +84,7 @@ module pie_slice(r, start_angle, end_angle) {
     }
 }
 
-module guard_shape(r, w, t, angle_start, angle_stop, n_supports, d_motor, mount_r) {
+module guard_shape(r, w, angle_start, angle_stop, n_supports, d_motor, mount_r) {
     render() {
         pie_slice(mount_r, angle_start, angle_stop);
         difference() {
@@ -109,11 +112,16 @@ module guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor, mount_r=0
     }
     difference() {
         fillet(r=w) union() {
-            guard_shape(r, w, t, angle_start, angle_stop, n_supports, d_motor, mount_r);
+            guard_shape(r=r, w=w, angle_start=angle_start, angle_stop=angle_stop,
+                n_supports=n_supports, d_motor=d_motor, mount_r=mount_r);
             drill_holes(d=d_screw*3, sep=screw_sep);
         }
         drill_holes(d=d_screw, sep=screw_sep);
     }
+}
+
+module motor() {
+    translate([0, 0, t_motor]) color("blue", 0.1) linear_extrude(20) circle(d=d_motor);
 }
 
 module guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to) {
@@ -124,20 +132,20 @@ module guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to) {
     mount_r = d_motor/2 + w;
     render() difference() {
         intersection() {
-            linear_extrude(t) guard_2d(r, w, t, angle_start,
-                angle_stop, n_supports, d_motor, mount_r);
+            linear_extrude(t) guard_2d(r=r, w=w, t=t, angle_start=angle_start,
+                angle_stop=angle_stop, n_supports=n_supports, d_motor=d_motor,
+                mount_r=mount_r);
             cylinder(h=t, r1=r2, r2=d_motor/2);
         }
         motor();
     }
 }
 
-module print_part() {
-	if (part == "propguard_2d") {
-    	linear_extrude(t) guard_2d(r, w, t, angle_start, angle_stop, n_supports, d_motor);
-	} else if (part == "propguard_3d") {
-    	guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, to);
-	}
-}
 
-print_part();
+if (part == "propguard_2d") {
+    linear_extrude(t_motor) guard_2d(r=r, w=w, t=t_motor,
+        angle_start=angle_start, angle_stop=angle_stop, n_supports=n_supports, d_motor=d_motor);
+} else if (part == "propguard_3d") {
+    guard_3d(r=r, w=w, t=t, angle_start=angle_start, angle_stop=angle_stop, n_supports=n_supports,
+        d_motor=d_motor, to=to);
+}
