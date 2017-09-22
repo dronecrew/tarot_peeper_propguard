@@ -30,7 +30,7 @@ screw_sep = 28;
 
 
 // Which one would you like to see?
-part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version, good for routing, all: display everything]
+part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version good for routing, all: display everything]
 
 module outset(r) {
     minkowski() {
