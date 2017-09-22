@@ -1,3 +1,6 @@
+// Which one would you like to see?
+part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version good for routing, all: display everything]
+
 // radius of guard
 r = 200; 
 
@@ -28,9 +31,7 @@ d_screw = 3;
 // triangular screw separation, setup for tarot motors
 screw_sep = 28;
 
-
-// Which one would you like to see?
-part = "propguard_3d"; // [propguard_3d:3D version good for 3D printing, propguard_2d:2D version good for routing, all: display everything]
+////////////////////////////////////////////////////////////////
 
 module outset(r) {
     minkowski() {
