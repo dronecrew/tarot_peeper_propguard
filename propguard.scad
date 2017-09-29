@@ -29,10 +29,10 @@ d_motor = 50;
 t_motor = 2;
 
 // diameter of motor screws, helpful to make slightly larger than actual screw
-d_screw = 3.2;
+d_screw = 3.5;
 
 // diameter of motor shaft
-d_shaft = 9;
+d_shaft = 13;
 
 // triangular screw separation, setup for tarot motors
 screw_sep = 28;
