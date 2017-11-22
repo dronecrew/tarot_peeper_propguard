@@ -10,6 +10,9 @@ w = 10;
 // thickness of guard
 t = 10; 
 
+// thickness of lillypad for adhesion, used in 3d version
+t_lillypad = 0.3;
+
 // outer thickness of guard, used in 3d version
 to = 5; 
 
@@ -146,6 +149,23 @@ module guard_3d(r, w, t, angle_start, angle_stop, n_supports, d_motor, d_shaft, 
     }
 }
 
+module lilypads(t) {
+    linear_extrude(t) {
+        difference() {
+            union() {
+                delta_angle = (angle_stop - angle_start) / (n_supports + 1);
+                circle(30, center=true);
+                for (n = [0: 1: n_supports + 1]) {
+                    a = angle_start + n*delta_angle;
+                    rotate(a) translate([r, 0]) circle(30, center=true);
+                }
+            }
+            drill_holes(d=d_screw, sep=screw_sep);
+            circle(d=d_shaft);
+        }
+    }
+}
+
 if (part == "2d") {
     linear_extrude(t_motor) guard_2d(r=r, w=w, t=t_motor,
         angle_start=angle_start, angle_stop=angle_stop, n_supports=n_supports, d_motor=d_motor, d_shaft=d_shaft);
@@ -155,4 +175,6 @@ if (part == "2d") {
 } else if (part == "3d") {
     guard_3d(r=r, w=w, t=t, angle_start=angle_start, angle_stop=angle_stop, n_supports=n_supports,
         d_motor=d_motor, d_shaft=d_shaft, to=to);
+    lilypads(t_lillypad);
 }
+
