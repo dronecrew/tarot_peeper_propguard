@@ -14,7 +14,7 @@ t = 10;
 t_lillypad = 0.3;
 
 // radius of lillypad for adhesion, used in 3d version
-r_lillypad = 40;
+r_lillypad = 25;
 
 // outer thickness of guard, used in 3d version
 to = 5; 
